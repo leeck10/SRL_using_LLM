@@ -1,0 +1,15 @@
+{
+  "파견.01": [
+    "<role argnum=\"0\" argrole=\"agent\"/>",
+    "<role argnum=\"1\" argrole=\"entity dispatched\"/>",
+    "<role argnum=\"2\" argrole=\"dispatched to\"/>"
+  ],
+  "이기.01": [
+    "<role argnum=\"0\" argrole=\"winner\"/>",
+    "<role argnum=\"1\" argrole=\"loser\"/>"
+  ],
+  "확보.01": [
+    "<role argnum=\"0\" argrole=\"agent\"/>",
+    "<role argnum=\"1\" argrole=\"thing secured\"/>"
+  ]
+}

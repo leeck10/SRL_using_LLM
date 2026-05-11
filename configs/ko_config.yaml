@@ -1,0 +1,60 @@
+# =============================================================================
+# Korean SRL-ICL Configuration (Korean PropBank)
+# =============================================================================
+
+language: "ko"
+output_format: "conll"  # "conll" or "dict"
+gpu_id: 4               # Default CUDA device index (overridable via --gpu)
+
+# --- Data paths ---
+data:
+  train_file: "data/ko/srl.icl.train4.txt"               # Full training data
+  test_file: "data/ko/srl.icl.test4.txt"                  # Full test data
+  framefiles: "data/ko/all_framefiles.json"                # Verb frame definitions
+
+# --- BERT-CRF Training ---
+crf_training:
+  bert_model: "klue/bert-base"
+  output_dir: "checkpoints/ko/bert_crf"
+  train_file: "data/ko/srl.train.conll.txt"        # CRF-format training data
+  dev_file: "data/ko/srl.dev.conll.txt"             # CRF-format dev data (for early stopping)
+  test_file: "data/ko/srl.test.conll.txt"           # CRF-format test data (optional final eval)
+  max_sent_length: 156
+  batch_size: 24
+  learning_rate: 2.0e-5
+  num_train_epochs: 30
+  warmup_proportion: 0.1
+  feat_embed_dim: 100
+  rnn_layers: 1
+  rnn_type: "lstm"
+  dropout_rnn: 0.1
+  rnn_hidden_size: 0
+  seed: 42
+
+# --- Retrieval ---
+retrieval:
+  encoder_model: "checkpoints/ko/bert_crf"        # Fine-tuned BERT-CRF checkpoint
+  encoder_type: "crf"                               # "crf" or "pretrained"
+  pretrained_model: "klue/bert-base"                # Used only when encoder_type = "pretrained"
+  metric: "euclidean"                               # "euclidean" or "mahalanobis"
+  num_examples: 50
+  db_path: "checkpoints/ko/retrieval_db"
+  prompt_output: "outputs/ko/prompt_data.json"
+  strategy: "topk"
+  mmr_lambda: 0.7
+
+# --- LLM for ConE ordering ---
+cone_llm:
+  model_id: "google/gemma-2-2b-it"
+
+# --- LLM for final evaluation ---
+eval_llm:
+  model_id: "google/gemma-2-27b-it"
+
+# --- ConE Ordering ---
+cone:
+  num_examples: 5
+  sample_size: 300
+  max_input_length: 3000
+  seed: 44
+  order_output: "outputs/ko/order.txt"

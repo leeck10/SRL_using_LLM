@@ -1,0 +1,13 @@
+{
+  "attribute.01": [
+    "<role argnum=\"0\" argrole=\"attributor\"/>",
+    "<role argnum=\"1\" argrole=\"thing attributed, attribute or theme\"/>",
+    "<role argnum=\"2\" argrole=\"attributed to (benefactive?) or value\"/>"
+  ],
+  "review.01": [
+    "<role argnum=\"0\" argrole=\"reviewer\"/>",
+    "<role argnum=\"1\" argrole=\"thing reviewed\"/>",
+    "<role argnum=\"2\" argrole=\"beneficiary or benefactive\"/>",
+    "<role argnum=\"3\" argrole=\"secondary-theme\"/>"
+  ]
+}

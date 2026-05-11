@@ -1,0 +1,66 @@
+# =============================================================================
+# English SRL-ICL Configuration (CoNLL 2009)
+# =============================================================================
+
+language: "en"
+output_format: "dict"  # "conll" or "dict"
+gpu_id: 3              # Default CUDA device index (overridable via --gpu)
+
+# --- Data paths ---
+data:
+  train_file: "data/en/train.closed3"           # Full training data (obtain from LDC)
+  test_file: "data/en/test.wsj.closed3"          # Full test data
+  framefiles: "data/en/new_framefiles_2009.json"  # Verb frame definitions
+
+# --- BERT-CRF Training ---
+crf_training:
+  bert_model: "bert-base-uncased"
+  output_dir: "checkpoints/en/bert_crf"
+  train_file: "data/en/train.crf.closed3"        # CRF-format training data
+  dev_file: "data/en/devel.crf.closed3"           # CRF-format dev data (for early stopping)
+  test_file: "data/en/test.wsj.crf.closed3"       # CRF-format test data (optional final eval)
+  max_sent_length: 156
+  batch_size: 24
+  learning_rate: 2.0e-5
+  num_train_epochs: 30
+  warmup_proportion: 0.1
+  feat_embed_dim: 100
+  rnn_layers: 1
+  rnn_type: "lstm"
+  dropout_rnn: 0.1
+  rnn_hidden_size: 0  # 0 = use BERT hidden size
+  seed: 42
+
+# --- Retrieval ---
+retrieval:
+  encoder_model: "checkpoints/en/bert_crf"       # Fine-tuned BERT-CRF checkpoint
+  encoder_type: "crf"                              # "crf" (fine-tuned) or "pretrained" (vanilla BERT)
+  pretrained_model: "bert-base-uncased"            # Used only when encoder_type = "pretrained"
+  metric: "euclidean"                              # "euclidean" or "mahalanobis"
+  num_examples: 50                                 # Number of candidates to retrieve
+  db_path: "checkpoints/en/retrieval_db"           # Where to save/load the vector DB
+  prompt_output: "outputs/en/prompt_data.json"     # Where to save prompt JSON
+  strategy: "topk"                                 # "topk" or "mmr"
+  mmr_lambda: 0.7                                  # Lambda for MMR (if strategy=mmr)
+
+# --- LLM for ConE ordering ---
+cone_llm:
+  model_id: "google/gemma-2-2b-it"
+  # Smaller model recommended for ConE to reduce VRAM usage.
+  # ConE evaluates k! permutations x 3 CE passes per instance.
+
+# --- LLM for final evaluation ---
+eval_llm:
+  model_id: "google/gemma-2-27b-it"
+  # Alternatives:
+  #   "google/gemma-2-9b-it"
+  #   "mistralai/Mistral-Large-Instruct-2407"
+  #   "meta-llama/Meta-Llama-3.1-70B-Instruct"
+
+# --- ConE Ordering ---
+cone:
+  num_examples: 5                                  # k examples to permute (k! orderings)
+  sample_size: 3000                                # Test instances to sample for ConE
+  max_input_length: 3000                           # Skip instances exceeding this token count
+  seed: 1644
+  order_output: "outputs/en/order.txt"
