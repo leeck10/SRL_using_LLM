@@ -116,7 +116,7 @@ print(result["prediction"])
 SRL-ICL/
 ├── models/          # BERT-CRF architecture (encoder, CRF layer, BiLSTM)
 ├── retrieval/       # Example retrieval (Euclidean/Mahalanobis, CRF/pretrained encoder)
-├─�� ordering/        # ConE ordering optimization
+├── ordering/        # ConE ordering optimization
 ├── prompts/         # Prompt templates (EN/KO × CoNLL/Dict) and builder
 ├── evaluation/      # Metrics (micro-F1) and format conversion
 ├── inference/       # End-to-end inference pipeline
