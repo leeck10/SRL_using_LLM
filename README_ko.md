@@ -81,8 +81,6 @@ python scripts/05_evaluate.py --config configs/en_config.yaml
 # 또는 순서를 직접 지정:
 python scripts/05_evaluate.py --config configs/en_config.yaml --order 2,1,3,4,0
 
-# Step 6: 레이턴시 벤치마크
-python scripts/06_latency_benchmark.py --config configs/en_config.yaml --mode breakdown --sample_size 100
 ```
 
 ## 추론 (단일 문장)
