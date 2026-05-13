@@ -84,10 +84,6 @@ python scripts/05_evaluate.py --config configs/en_config.yaml
 # Or specify a custom ordering:
 python scripts/05_evaluate.py --config configs/en_config.yaml --order 2,1,3,4,0
 
-# Step 6: Latency benchmark
-python scripts/06_latency_benchmark.py --config configs/en_config.yaml --mode breakdown --sample_size 100
-python scripts/06_latency_benchmark.py --config configs/en_config.yaml --mode pool_scaling --pool_sizes 1000,5000,full
-python scripts/06_latency_benchmark.py --config configs/en_config.yaml --mode shot_scaling --k_values 1,3,5,7,10
 ```
 
 ## Inference (Single Sentence)
